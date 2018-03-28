@@ -8,4 +8,5 @@
 
 还有一部分问题未解决：\
 *pandas和numpy库的用法 \
-*怎么使用Jupyter库将最终结果显示在浏览器中，现在结果还只能在终端显示
+*怎么使用Jupyter库将最终结果显示在浏览器中，现在结果还只能在终端显示 \
+ --- 想复杂了，只要在终端输入 jupyter notebook打开notebook，在file中新建一个python3程序，将craig_list.py的源码输入运行就可以生成原作者所见的表。

@@ -30,26 +30,26 @@ def craig_list(price, location_list=list):
     '''
     craig_title = []
     link_list = []
+    #此处for循环一直到pd.DataFrame函数
     for place in location_list:
         print('------MOVING TO PLACE' + str(place) + '-------')
         link_list.append(' ')
         craig_title.append(str(place))
-
-    url = 'https://sfbay.craigslist.org/search/roo?lang=zh&query=' + \
+        url = 'https://sfbay.craigslist.org/search/roo?lang=zh&query=' + \
         str(place) + '&max_price=' + str(price) + '&availabilityMode=0'
-    # 抓取第一个页面的标题和链接
-    driver.get(url)
-    # chrome查看源码，可以发现所需结果都在<li class = "result-row">...</li>所在区域
-    all_posts = driver.find_elements_by_class_name('result-row')
-    for post in all_posts:
-        craig_title.append(post.text)
-    # 移动到第二个页面，抓取这个页面的标题和链接，处理加密链接
-    gcontext = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
-    html_page = urlopen(url, context=gcontext)
-    #解析urllib库点击的链接
-    soup = BeautifulSoup(html_page, 'lxml')
-    for pid in soup.find_all('a', attrs={'class': 'result-title hdrlnk'}):
-        link_list.append(pid['href'])
+        # 抓取第一个页面的标题和链接
+        driver.get(url)
+        # chrome查看源码，可以发现所需结果都在<li class = "result-row">...</li>所在区域
+        all_posts = driver.find_elements_by_class_name('result-row')
+        for post in all_posts:
+            craig_title.append(post.text)
+        # 移动到第二个页面，抓取这个页面的标题和链接，处理加密链接
+        gcontext = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
+        html_page = urlopen(url, context=gcontext)
+        #解析urllib库点击的链接
+        soup = BeautifulSoup(html_page, 'lxml')
+        for pid in soup.find_all('a', attrs={'class': 'result-title hdrlnk'}):
+            link_list.append(pid['href'])
     craig_df = pd.DataFrame(np.column_stack([craig_title, link_list]),
                             columns=['Info', 'Link'])
     return craig_df
